@@ -26,16 +26,12 @@ index = index_creator.from_documents(documents)
 # Initialize ChatOpenAI
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
-# ---- Pydantic Model for Validation ----
-
 
 class UserInfo(BaseModel):
     name: str
     phone: str
-    # email: EmailStr
-    # appointment_date: str
-    email: Optional[EmailStr] = None  # Make email optional
-    appointment_date: Optional[str] = None  # Make appointment_date optional
+    email: Optional[EmailStr] = None  # optional
+    appointment_date: Optional[str] = None  # optional
 
 
 def validate_phone(phone: str):
@@ -70,21 +66,10 @@ elif options == "Book Appointment":
     if st.button("Book Appointment"):
         try:
             phone = validate_phone(phone)
-
-            # # Extract and validate date
-            # date_prompt = PromptTemplate(
-            #     input_variables=["query"],
-            #     template="Convert this date-related query into YYYY-MM-DD format: {query}"
-            # )
-            # normalized_date = llm.predict(
-            #     date_prompt.format(query=date_query)
-            # ).strip()
-            # datetime.strptime(normalized_date, "%Y-%m-%d")
-
             normalized_date = date_query.strftime("%Y-%m-%d")
-
             user_info = UserInfo(name=name, phone=phone,
                                  email=email, appointment_date=normalized_date)
+
             st.success(f"Appointment booked successfully! {user_info}")
         except ValidationError as e:
             st.error(f"Validation Error: {e.errors()}")
