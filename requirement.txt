@@ -1,0 +1,12 @@
+openai
+PyPDF2
+langchain
+streamlit
+faiss-cpu
+python-dotenv
+langchain-community
+dateparser
+python-docx
+numpy
+PyPDF2
+pydantic[email]
